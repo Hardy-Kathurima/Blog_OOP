@@ -8,7 +8,6 @@ body {
 }
 textarea {
   width: 300px;
-  padding: 10px;
   height: 150px;
   resize: none;
 }
