@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
     $errors['title'] = 'title field cannot be empty';
   } else {
     $title =  trim($_POST['title']);
-    if (!preg_match('/^[a-z\d_\s]{2,20}$/i', $title)) {
+    if (!preg_match('/^[a-z\d_\s]{2,100}$/i', $title)) {
       $errors['title'] = 'Please enter a valid title.';
     }
   }
@@ -54,7 +54,12 @@ if (isset($_POST['submit'])) {
 
       $message = '<div class="alert alert-success alert-dismissible text-center">
       Data successfully submited</div> ';
-      //header('Location:../index.php');
+
+      $title = '';
+      $content = '';
+      $author = '';
+      
+
       $stmt->close();
     } else {
       $errors['title'] = 'Title already exists';

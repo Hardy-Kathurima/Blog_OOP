@@ -1,15 +1,39 @@
 <?php
 require '../database/connection.php';
 
-$id = $_GET['id'];
 
-$select = 'SELECT * from blog_details WHERE id = ?';
-$stmt = $conn->prepare($select);
-$stmt->bind_param('i', $id);
-$stmt->execute();
-$result = $stmt->get_result();
-$single_blog = $result->fetch_assoc();
-$conn->close();
+    if(array_key_exists('id',$_GET)){
+        $id = $_GET['id'];
+    }
+
+    $stmt = $conn->prepare("SELECT id,title,content,author,created_at FROM blog_details WHERE id = ?");
+    $stmt->bind_param('i',$id);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($id,$title,$content,$author,$created_at);
+    $stmt->fetch();
+    
+
+
+if(isset($_POST['delete']) && isset($_POST['delete_blog'])){
+    $delete_blog = $_POST['delete_blog'];
+
+    $stmt = $conn->prepare("DELETE FROM blog_details WHERE id = ?");
+    $stmt->bind_param('i',$delete_blog);
+    $stmt->execute();
+
+     header('Location:../index.php');
+
+}
+
+
+
+
+
+
+
+
+
 
 ?>
 
@@ -32,13 +56,16 @@ $conn->close();
 <div class="container">
 
     <div class="blogs bg-light mt-3 mb-3 p-2">
-        <h3 class=" display-4 text-justify "><?php echo $single_blog['title']; ?></h3>
+        <h3 class=" display-6  "><?php echo $title; ?></h3>
         <hr>
-        <p class="lead"><?php echo $single_blog['content']; ?></p>
-        <span class="text-dark text-right"><?php echo 'Author : ' . $single_blog['author']; ?></span><br>
-        <span class=" text-center text-success"><?php echo 'Created at : ' . $single_blog['created_at']; ?></span><br>
-        <span><a href="edit.php?id=<?php echo $single_blog['id']; ?>">Update article</a></span>
-        &nbsp;<span><a href="#">Delete article</a></span>
+        <p class="lead"><?php $content; ?></p>
+        <span class="text-dark text-right"><?php echo 'Author : ' . $author; ?></span><br>
+        <span class=" text-center text-success"><?php echo 'Created at : ' . $created_at; ?></span><br>
+        <span><a href="edit.php?id=<?php echo $id; ?>">Update article</a></span>
+        <div class="mt-2"><form action="details.php" method="POST">
+            <input type="hidden" name="delete_blog" value="<?php echo $id ?>">
+            <input type="submit" onclick="return confirm('Delete Blog?')" value="Delete" name="delete">
+        </form></div>
 
 
     </div>
