@@ -1,0 +1,25 @@
+body {
+  height: 100%;
+}
+
+.input input[type="text"] {
+  width: 300px;
+  padding: 5px;
+}
+textarea {
+  width: 300px;
+  padding: 10px;
+  height: 150px;
+  resize: none;
+}
+.form {
+  margin: 0 auto;
+  max-width: 600px;
+}
+.errors {
+  color: red;
+}
+.blogs {
+  margin: 0 auto;
+  max-width: 600px;
+}
