@@ -9,8 +9,7 @@ body {
 }
 .input input[type="search"]{
   outline:none;
-  width: 530px;
-  padding: 3px;
+  
   
 
 }

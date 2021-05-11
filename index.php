@@ -7,14 +7,17 @@ $stmt->execute();
 $stmt->store_result();
 $stmt->bind_result($id,$title,$content,$author);
 
+
+$search_value='';
 if(isset($_POST['search'])&& isset($_POST['search_value'])){
+
     $search_value = $_POST['search_value'];
-    $stmt = $conn->prepare("SELECT author,title ,content FROM blog_details WHERE  title LIKE ? ");
-    $like = $search_value .'%' ;
-    $stmt->bind_param('s',$like);
+    $stmt = $conn->prepare("SELECT id,author,title ,content FROM blog_details WHERE (title LIKE ? OR author LIKE ? OR content LIKE ?)  ");
+    $like = '%'. $search_value .'%' ;
+    $stmt->bind_param('sss',$like,$like,$like);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($author,$title,$content);
+    $stmt->bind_result($id,$author,$title,$content);
 
 }
 ?>
@@ -35,8 +38,8 @@ if(isset($_POST['search'])&& isset($_POST['search_value'])){
     <h2 class="text-center mt-3 mb-3">Blogs</h2>
     <form class="text-center" action="index.php" Method="POST">
         <div class="input">
-       <input type="text" name="search_value" placeholder="search..." >
-       <span><input type="submit" value="Search" name="search"></span>
+       <input type="search" class="border border-info rounded " name="search_value" value="<?php echo $search_value; ?>" >
+       <span><input type="submit" value="Search" name="search" class=" btn btn-info"></span>
        </div>
     </form>
     
