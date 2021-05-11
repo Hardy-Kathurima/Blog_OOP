@@ -38,8 +38,8 @@ if(isset($_POST['search'])&& isset($_POST['search_value'])){
     <h2 class="text-center mt-3 mb-3">Blogs</h2>
     <form class="text-center" action="index.php" Method="POST">
         <div class="input">
-       <input type="search" class="border border-info rounded " name="search_value" value="<?php echo $search_value; ?>" >
-       <span><input type="submit" value="Search" name="search" class=" btn btn-info"></span>
+       <input type="search" class="border border-info rounded p-2 mr-2 " name="search_value"  placeholder="search..." value="<?php echo $search_value; ?>"  >
+       <input type="submit" value="Search" name="search" class="btn btn-info ">
        </div>
     </form>
     

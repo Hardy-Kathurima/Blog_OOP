@@ -9,9 +9,8 @@ body {
 }
 .input input[type="search"]{
   outline:none;
+  width:510px;
   
-  
-
 }
 textarea {
   width: 300px;

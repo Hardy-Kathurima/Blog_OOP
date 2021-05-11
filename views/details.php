@@ -3,7 +3,7 @@ require '../database/connection.php';
 
 
     if(array_key_exists('id',$_GET)){
-        $id = $_GET['id'];
+        $id = htmlspecialchars($_GET['id']);
     }
 
     $stmt = $conn->prepare("SELECT id,title,content,author,created_at FROM blog_details WHERE id = ?");
