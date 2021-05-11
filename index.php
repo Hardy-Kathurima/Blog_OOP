@@ -6,6 +6,17 @@ $stmt->bind_param('i',$limit);
 $stmt->execute();
 $stmt->store_result();
 $stmt->bind_result($id,$title,$content,$author);
+
+if(isset($_POST['search'])&& isset($_POST['search_value'])){
+    $search_value = $_POST['search_value'];
+    $stmt = $conn->prepare("SELECT author,title ,content FROM blog_details WHERE  title LIKE ? ");
+    $like = $search_value .'%' ;
+    $stmt->bind_param('s',$like);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($author,$title,$content);
+
+}
 ?>
 <?php include 'templates/header.php'; ?>
 
@@ -21,7 +32,14 @@ $stmt->bind_result($id,$title,$content,$author);
     </ul>
 </nav>
 <div class="container">
-    <h1 class="text-center mt-3 mb-3">Blogs</h1>
+    <h2 class="text-center mt-3 mb-3">Blogs</h2>
+    <form class="text-center" action="index.php" Method="POST">
+        <div class="input">
+       <input type="text" name="search_value" placeholder="search..." >
+       <span><input type="submit" value="Search" name="search"></span>
+       </div>
+    </form>
+    
 
     <?php if ($stmt->num_rows > 0) : ?>
 
@@ -36,7 +54,9 @@ $stmt->bind_result($id,$title,$content,$author);
     </div>
     <?php endwhile; ?>
     <?php else : ?>
-    <?php echo 'no blogs found'; ?>
+    <?php echo '<div class="text-center mt-5 p-3  bg-light ">' ?>
+    <?php echo 'No such blog exists!'; ?>
+     <?php echo '<div>' ?>
     <?php endif; ?>
 
 </div>

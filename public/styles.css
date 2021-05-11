@@ -2,9 +2,17 @@ body {
   height: 100%;
 }
 
-.input input[type="text"] {
+.input input[type="text"]{
+  outline:none;
   width: 300px;
   padding: 5px;
+}
+.input input[type="search"]{
+  outline:none;
+  width: 530px;
+  padding: 3px;
+  
+
 }
 textarea {
   width: 300px;
