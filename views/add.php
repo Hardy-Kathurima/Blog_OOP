@@ -1,5 +1,6 @@
 <?php
 require '../database/connection.php';
+include_once '../validation/Validator.php';
 $author = $title = $content = '';
 $message = '';
 $rnum = '';
@@ -9,37 +10,38 @@ if (isset($_POST['submit'])) {
   $author = htmlspecialchars($_POST['author']);
   $title = htmlspecialchars($_POST['title']);
   $content = htmlspecialchars($_POST['content']);
-  if (empty($author)) {
-    $errors['author'] = 'author field cannot be empty';
-  } else {
-    $author =  trim($_POST['author']);
-    if (!preg_match('/^[a-z\d_\s]{2,20}$/i', $author)) {
-      $errors['author'] = 'Please enter a valid author name.';
-    }
+
+
+  if (Validator::checkEmptyAuthor($author)) {
+    $errors['author'] = ' author field cannot be empty';
+  } else if (Validator::validateAuthor($author)) {
+    $errors['author'] = 'please enter a valid author name';
   }
-  if (empty($title)) {
-    $errors['title'] = 'title field cannot be empty';
-  } else {
-    $title =  trim($_POST['title']);
-    if (!preg_match('/^[a-z\d_\s]{2,100}$/i', $title)) {
-      $errors['title'] = 'Please enter a valid title.';
-    }
+
+  if (Validator::checkEmptyTitle($title)) {
+    $errors['title'] = ' title field cannot be empty';
+  } else if (Validator::validateTitle($title)) {
+    $errors['title'] = 'please enter a valid title';
   }
-  if (empty($content)) {
-    $errors['content'] = 'content field cannot be empty';
-  } else {
-    $content =  trim($_POST['content']);
-    if (str_word_count($_POST['content']) > 300) {
-      $errors['content'] = 'comment cannot exceed 300 words';
-    }
+
+  if (Validator::checkEmptyContent($content)) {
+    $errors['content'] = ' content field cannot be empty';
+  } else if (Validator::validateContent($content)) {
+    $errors['content'] = 'please enter valid content';
   }
+
+
+
 
   if (array_filter($errors)) {
   } else {
-    // check if title exists
+    // check if title already exists
     $stmt = $conn->prepare("SELECT title FROM blog_details WHERE title = ? LIMIT 1");
+    echo $conn->error;
     $stmt->bind_param('s', $title);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+      echo $stmt->error;
+    }
     $stmt->bind_result($title);
     $stmt->store_result();
     $rnum = $stmt->num_rows;
@@ -58,7 +60,7 @@ if (isset($_POST['submit'])) {
       $title = '';
       $content = '';
       $author = '';
-      
+
 
       $stmt->close();
     } else {
@@ -104,7 +106,7 @@ if (isset($_POST['submit'])) {
         </div><br>
         <label for="content">Content:</label>
         <div class="input">
-            <textarea name="content" id="content"><?php echo $content; ?></textarea>
+            <textarea name="content" id="content" class="p-2"><?php echo $content; ?></textarea>
             <div class="errors">
                 <?php echo $errors['content']; ?>
             </div>

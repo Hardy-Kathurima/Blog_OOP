@@ -1,5 +1,6 @@
 <?php
 require '../database/connection.php';
+require_once '../validation/Validator.php';
 $errors = ['author' => '', 'title' => '', 'content' => ''];
 
 
@@ -21,31 +22,28 @@ if (isset($_POST['submit']) && isset($_POST['edit_blog'])) {
   $content = $_POST['content'];
   $edit_blog = $_POST['edit_blog'];
 
+  if (Validator::checkEmptyAuthor($author)) {
+    $errors['author'] = ' author field cannot be empty';
+  } else if (Validator::validateAuthor($author)) {
+    $errors['author'] = 'please enter a valid author name';
+  }
 
-  if (empty($author)) {
-    $errors['author'] = 'author field cannot be empty';
-  } else {
-    $author =  trim($_POST['author']);
-    if (!preg_match('/^[a-z\d_\s]{2,20}$/i', $author)) {
-      $errors['author'] = 'Please enter a valid author name.';
-    }
+  if (Validator::checkEmptyTitle($title)) {
+    $errors['title'] = ' title field cannot be empty';
+  } else if (Validator::validateTitle($title)) {
+    $errors['title'] = 'please enter a valid title';
   }
-  if (empty($title)) {
-    $errors['title'] = 'title field cannot be empty';
-  } else {
-    $title =  trim($_POST['title']);
-    if (!preg_match('/^[a-z\d_\s]{2,100}$/i', $title)) {
-      $errors['title'] = 'Please enter a valid title.';
-    }
+
+  if (Validator::checkEmptyContent($content)) {
+    $errors['content'] = ' content field cannot be empty';
+  } else if (Validator::validateContent($content)) {
+    $errors['content'] = 'please enter a valid content';
   }
-  if (empty($content)) {
-    $errors['content'] = 'content field cannot be empty';
-  } else {
-    $content =  trim($_POST['content']);
-    if (str_word_count($_POST['content']) > 300) {
-      $errors['content'] = 'comment cannot exceed 300 words';
-    }
-  }
+
+
+
+
+
 
   if (array_filter($errors)) {
   } else {
@@ -56,6 +54,9 @@ if (isset($_POST['submit']) && isset($_POST['edit_blog'])) {
     $stmt->execute();
 
     header('Location:../index.php');
+
+    $stmt->close();
+    $conn->close();
   }
 }
 
@@ -78,7 +79,7 @@ if (isset($_POST['submit']) && isset($_POST['edit_blog'])) {
 </nav>
 
 <div class="container">
-    <form action="edit.php" method="POST">
+    <form action="edit.php" method="POST" class="form mt-3">
         <input type="hidden" name="edit_blog" value=" <?php echo $id; ?> ">
         <label for="title">Title:</label><br>
         <div class="input">
@@ -96,7 +97,7 @@ if (isset($_POST['submit']) && isset($_POST['edit_blog'])) {
         </div>
         <div class="errors"><?php echo $errors['author'] ?></div>
         <div><br>
-            <input type="submit" value="Submit" name="submit">
+            <input type="submit" class="btn btn-primary" value="Submit" name="submit">
         </div>
     </form>
 

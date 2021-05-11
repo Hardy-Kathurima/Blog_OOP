@@ -24,6 +24,9 @@ if(isset($_POST['delete']) && isset($_POST['delete_blog'])){
 
      header('Location:../index.php');
 
+     $stmt->close();
+    $conn->close();
+
 }
 
 
