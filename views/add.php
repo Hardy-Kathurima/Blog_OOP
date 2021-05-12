@@ -11,23 +11,23 @@ if (isset($_POST['submit'])) {
   $title = htmlspecialchars($_POST['title']);
   $content = htmlspecialchars($_POST['content']);
 
+  // validate user input
 
   if (Validator::checkEmptyAuthor($author)) {
     $errors['author'] = ' author field cannot be empty';
   } else if (Validator::validateAuthor($author)) {
-    $errors['author'] = 'please enter a valid author name';
+    $errors['author'] = '* author can only contain words and numbers.';
   }
 
   if (Validator::checkEmptyTitle($title)) {
     $errors['title'] = ' title field cannot be empty';
   } else if (Validator::validateTitle($title)) {
-    $errors['title'] = 'please enter a valid title';
+    $errors['title'] = '* author can only contain words and numbers.';
   }
-
   if (Validator::checkEmptyContent($content)) {
     $errors['content'] = ' content field cannot be empty';
   } else if (Validator::validateContent($content)) {
-    $errors['content'] = 'please enter valid content';
+    $errors['content'] = '* Blog can only contain words and numbers & 2-100 words';
   }
 
 
@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
 
 
       $message = '<div class="alert alert-success alert-dismissible text-center">
-      Data successfully submited</div> ';
+      Data successfully submitted</div> ';
 
       $title = '';
       $content = '';
@@ -85,7 +85,7 @@ if (isset($_POST['submit'])) {
 
 </nav>
 <div class="container">
-    <h2 class=" dispaly-4 mt-3 mb-3">Add a Blog</h2>
+    <h2 class=" display-4 mt-3 mb-3">Add a Blog</h2>
     <div class="message mt-2 mb-2">
         <?php echo $message; ?>
     </div>
@@ -106,7 +106,7 @@ if (isset($_POST['submit'])) {
         </div><br>
         <label for="content">Content:</label>
         <div class="input">
-            <textarea name="content" id="content" class="p-2"><?php echo $content; ?></textarea>
+            <textarea name="content" id="content" class="p-2"><?php echo $content; ?></textarea><br>
             <div class="errors">
                 <?php echo $errors['content']; ?>
             </div>

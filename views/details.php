@@ -2,31 +2,30 @@
 require '../database/connection.php';
 
 
-    if(array_key_exists('id',$_GET)){
-        $id = htmlspecialchars($_GET['id']);
-    }
+if (array_key_exists('id', $_GET)) {
+    $id = htmlspecialchars($_GET['id']);
+}
 
-    $stmt = $conn->prepare("SELECT id,title,content,author,created_at FROM blog_details WHERE id = ?");
-    $stmt->bind_param('i',$id);
-    $stmt->execute();
-    $stmt->store_result();
-    $stmt->bind_result($id,$title,$content,$author,$created_at);
-    $stmt->fetch();
-    
+$stmt = $conn->prepare("SELECT id,title,content,author,created_at FROM blog_details WHERE id = ?");
+$stmt->bind_param('i', $id);
+$stmt->execute();
+$stmt->store_result();
+$stmt->bind_result($id, $title, $content, $author, $created_at);
+$stmt->fetch();
 
+// delete single blog
 
-if(isset($_POST['delete']) && isset($_POST['delete_blog'])){
+if (isset($_POST['delete']) && isset($_POST['delete_blog'])) {
     $delete_blog = $_POST['delete_blog'];
 
     $stmt = $conn->prepare("DELETE FROM blog_details WHERE id = ?");
-    $stmt->bind_param('i',$delete_blog);
+    $stmt->bind_param('i', $delete_blog);
     $stmt->execute();
 
-     header('Location:../index.php');
+    header('Location:../index.php');
 
-     $stmt->close();
+    $stmt->close();
     $conn->close();
-
 }
 
 
@@ -65,10 +64,13 @@ if(isset($_POST['delete']) && isset($_POST['delete_blog'])){
         <span class="text-dark text-right"><?php echo 'Author : ' . $author; ?></span><br>
         <span class=" text-center text-success"><?php echo 'Created at : ' . $created_at; ?></span>
         <span><a href="edit.php?id=<?php echo $id; ?>"><img src="../public/images/edit.png" alt=""></a></span>
-        <div class="mt-2"><form action="details.php" method="POST">
-            <input type="hidden" name="delete_blog" value="<?php echo $id ?>">
-            <input type="submit" class="btn btn-danger" onclick="return confirm('Delete Blog?')" value="Delete" name="delete">
-        </form></div>
+        <div class="mt-2">
+            <form action="details.php" method="POST">
+                <input type="hidden" name="delete_blog" value="<?php echo $id ?>">
+                <input type="submit" class="btn btn-danger" onclick="return confirm('Delete Blog?')" value="Delete"
+                    name="delete">
+            </form>
+        </div>
 
 
     </div>

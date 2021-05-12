@@ -3,7 +3,7 @@ require '../database/connection.php';
 require_once '../validation/Validator.php';
 $errors = ['author' => '', 'title' => '', 'content' => ''];
 
-
+// check if the variable id is set
 if (array_key_exists('id', $_GET)) {
   $id = htmlspecialchars($_GET['id']);
 }
@@ -22,6 +22,7 @@ if (isset($_POST['submit']) && isset($_POST['edit_blog'])) {
   $content = $_POST['content'];
   $edit_blog = $_POST['edit_blog'];
 
+  // validate user input
   if (Validator::checkEmptyAuthor($author)) {
     $errors['author'] = ' author field cannot be empty';
   } else if (Validator::validateAuthor($author)) {
@@ -37,18 +38,12 @@ if (isset($_POST['submit']) && isset($_POST['edit_blog'])) {
   if (Validator::checkEmptyContent($content)) {
     $errors['content'] = ' content field cannot be empty';
   } else if (Validator::validateContent($content)) {
-    $errors['content'] = 'please enter a valid content';
+    $errors['content'] = 'please enter  valid content';
   }
 
-
-
-
-
-
+  // check if error array contains errors
   if (array_filter($errors)) {
   } else {
-
-
     $stmt = $conn->prepare("UPDATE blog_details SET author = ?, title = ? ,content = ? WHERE id = ? LIMIT 1");
     $stmt->bind_param('sssi', $author, $title, $content, $edit_blog);
     $stmt->execute();

@@ -1,5 +1,5 @@
 <?php
-
+// a validation class to validate user input
 class Validator
 {
 	public static function checkEmptyAuthor($author)
@@ -51,8 +51,8 @@ class Validator
 
 	public static function validateContent($content)
 	{
-		$content =  trim($_POST['title']);
-		if (!preg_match('/^[a-z\d_\s]{2,3000}$/i', $content)) {
+		$content =  trim($_POST['content']);
+		if (!preg_match('/^[a-z\d_\s]{2,1000}$/i', $content)) {
 			return true;
 		} else {
 			return false;

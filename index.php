@@ -1,5 +1,6 @@
 <?php
 require 'database/connection.php';
+// select data using prepared statement
 $stmt = $conn->prepare("SELECT id,title,content,author FROM blog_details   LIMIT ?  ");
 $limit = 5;
 $stmt->bind_param('i', $limit);
@@ -8,6 +9,7 @@ $stmt->store_result();
 $stmt->bind_result($id, $title, $content, $author);
 
 $search_value = '';
+// search the database
 if (isset($_POST['search']) && isset($_POST['search_value'])) {
 
     $search_value = $_POST['search_value'];
@@ -43,7 +45,7 @@ if (isset($_POST['search']) && isset($_POST['search_value'])) {
         </div>
     </form>
 
-
+    <!-- check if blogs exist before display -->
     <?php if ($stmt->num_rows > 0) : ?>
 
     <?php while ($stmt->fetch()) : ?>
