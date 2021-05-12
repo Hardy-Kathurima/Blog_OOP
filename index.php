@@ -62,7 +62,7 @@ if (isset($_POST['search']) && isset($_POST['search_value'])) {
     <?php echo 'No such blog exists!'; ?>
     <?php echo '<div>' ?>
     <?php endif; ?>
-
+    <?php include 'templates/footer.php'; ?>
 </div>
 
 </body>

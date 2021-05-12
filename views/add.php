@@ -85,7 +85,7 @@ if (isset($_POST['submit'])) {
 
 </nav>
 <div class="container">
-    <h2 class=" display-4 mt-3 mb-3">Add a Blog</h2>
+    <h2 class="  mt-2 mb-2">Add a Blog</h2>
     <div class="message mt-2 mb-2">
         <?php echo $message; ?>
     </div>
@@ -116,6 +116,7 @@ if (isset($_POST['submit'])) {
         </div>
     </form>
     <div class="error"></div>
+    <?php include '../templates/footer.php'; ?>
 </div>
 
 <script src="../public/jquery-3.4.1.min.js"></script>

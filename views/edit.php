@@ -90,5 +90,5 @@ if (isset($_POST['submit']) && isset($_POST['edit_blog'])) {
         </div>
     </form>
 
-
+    <?php include '../templates/footer.php'; ?>
 </div>
