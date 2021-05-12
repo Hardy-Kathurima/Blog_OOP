@@ -17,28 +17,22 @@ $stmt->fetch();
 
 
 if (isset($_POST['submit']) && isset($_POST['edit_blog'])) {
-  $author = $_POST['author'];
-  $title = $_POST['title'];
-  $content = $_POST['content'];
-  $edit_blog = $_POST['edit_blog'];
+  $author = trim($_POST['author']);
+  $title = trim($_POST['title']);
+  $content = trim($_POST['content']);
+  $edit_blog = trim($_POST['edit_blog']);
 
   // validate user input
   if (Validator::checkEmptyAuthor($author)) {
     $errors['author'] = ' author field cannot be empty';
-  } else if (Validator::validateAuthor($author)) {
-    $errors['author'] = 'please enter a valid author name';
   }
 
   if (Validator::checkEmptyTitle($title)) {
     $errors['title'] = ' title field cannot be empty';
-  } else if (Validator::validateTitle($title)) {
-    $errors['title'] = 'please enter a valid title';
   }
 
   if (Validator::checkEmptyContent($content)) {
     $errors['content'] = ' content field cannot be empty';
-  } else if (Validator::validateContent($content)) {
-    $errors['content'] = 'please enter  valid content';
   }
 
   // check if error array contains errors

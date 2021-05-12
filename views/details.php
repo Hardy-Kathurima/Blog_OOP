@@ -7,6 +7,7 @@ if (array_key_exists('id', $_GET)) {
 }
 
 $stmt = $conn->prepare("SELECT id,title,content,author,created_at FROM blog_details WHERE id = ?");
+$conn->error;
 $stmt->bind_param('i', $id);
 $stmt->execute();
 $stmt->store_result();
@@ -23,19 +24,7 @@ if (isset($_POST['delete']) && isset($_POST['delete_blog'])) {
     $stmt->execute();
 
     header('Location:../index.php');
-
-    $stmt->close();
-    $conn->close();
 }
-
-
-
-
-
-
-
-
-
 
 ?>
 

@@ -13,7 +13,7 @@ class Validator
 
 	public static function validateAuthor($author)
 	{
-		$author =  trim($_POST['author']);
+
 		if (!preg_match('/^[a-z\d_\s]{2,100}$/i', $author)) {
 			return true;
 		} else {
@@ -32,8 +32,8 @@ class Validator
 
 	public static function validateTitle($title)
 	{
-		$title =  trim($_POST['title']);
-		if (!preg_match('/^[a-z\d_\s]{2,100}$/i', $title)) {
+
+		if (!preg_match('/^[a-z\d_\s]{2,1000}$/i', $title)) {
 			return true;
 		} else {
 			return false;
@@ -51,7 +51,7 @@ class Validator
 
 	public static function validateContent($content)
 	{
-		$content =  trim($_POST['content']);
+
 		if (!preg_match('/^[a-z\d_\s]{2,1000}$/i', $content)) {
 			return true;
 		} else {
